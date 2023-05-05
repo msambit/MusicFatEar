@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+<title>FatEar My Activity</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
+<style>
+body {
+  font-family: "Lato", sans-serif;
+  background-color: #433F3E;
+  height: 800px;
+}
+.mySlides {display: none}
+.container {
+   width: 100%;
+   height: 100%;
+   position: relative;
+}
+.tag {
+   position: absolute;
+   left: 450px;
+   top: 70px;
+   width: 800px;
+   z-index: 1000;
+   font-weight: bold;
+}
+.results {
+   position: absolute;
+   left: 450px;
+   top: 400px;
+   width: 800px;
+   z-index: 1000;
+   font-weight: bold;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+} 
+.advanced{
+
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.btn-secondary,
+.btn-secondary:focus,
+.btn-secondary:active
+{
+  color: #fff;
+  background-color: #00838f !important;
+  border-color: #00838f !important;
+  box-shadow: none;
+}
+.advanced{
+
+  color: #00838f !important;
+}
+
+.form-control:focus{
+  box-shadow: none;
+  border: 1px solid #00838f;
+}
+.addedError, .error{
+  display: block;
+  margin: $spacing 0;
+  font-size: 1em;
+  text-align: center;
+  color: indianred;
+  cursor: pointer;
+}
+.w3-dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+</style>
+</head>
+<body>
+
+<style type="text/css">
+  table, th, td{
+    border: 2px solid white;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  th,tr {
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 1px solid #ddd;
+  }
+  th{
+    background-color: #D6EEEE;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(26, 180, 180, 0.8);
+  }
+  tr:nth-child(odd) {
+    background-color: rgba(13, 181, 201, 0.8);
+  }
+</style>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="/home" class="w3-bar-item w3-button w3-padding-large">FatEar</a>
+    <a href="/recentActivity" class="w3-bar-item w3-button w3-padding-large">Recent Activity Feed</a>
+    <a href="/rateReviewMusic" class="w3-bar-item w3-button w3-padding-large">Rate/Review Song</a>
+    <a href="/rateReviewAlbum" class="w3-bar-item w3-button w3-padding-large">Rate/Review Album</a>
+    <a href="/sendRequest" class="w3-bar-item w3-button w3-padding-large">Make Friends</a>
+    <div class="w3-dropdown-hover w3-button w3-bar-item w3-right">
+    <button class="w3-button">{{username}}</button>
+    <div class="w3-dropdown-content w3-bar-block w3-border">
+      <a href="/myActivity" class="w3-bar-item w3-button">My Activity</a>
+      <a href="/social" class="w3-bar-item w3-button">Friends, Following and Followers</a>
+      <a href="/requests" class="w3-bar-item w3-button">Pending Requests</a>
+      <a href="/logout" class="w3-bar-item w3-button">Logout</a>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container" class="w3-content" style="max-width:2000px;margin-top:46px">
+
+    <div class="tag">
+      <div class="container mt-5">
+          <div class="row d-flex justify-content-center">
+              <div class="col-md-10">
+                  <div class="card p-3  py-4">
+
+                      <span style="font-weight:bold" class="Songs">
+                        <h3>Song Reviews (Top 10)</h3>
+                        {% if dataSong %}
+                            <table style="width:100%">
+                              <th style="font-weight:bold;font-size:1.5em">Title</th>
+                              <th style="font-weight:bold;font-size:1.5em">Review</th>
+
+                              {% for line in dataSong %}
+                                <tr>
+                                  <td style="font-weight:bold;font-size:1.5em">{{line.title}}</td>
+                                  <td style="font-weight:bold;font-size:1.5em">{{line.reviewText}}</td>
+                                </tr>
+                              {% endfor %}
+                            </table>
+                        {% endif %}
+                        <span class="addedError">
+                              {% if errorSong %}
+                                  <p class="error"><strong>=></strong> {{errorSong}}</p>
+                              {% endif %}
+                        </span>
+                      </span>
+                      <span style="font-weight:bold" class="Albums">
+                        <h3>Album Reviews (Top 10)</h3>
+                        {% if dataAlbum %}
+                            <table style="width:100%">
+                              <th style="font-weight:bold;font-size:1.5em">AlbumID</th>
+                              <th style="font-weight:bold;font-size:1.5em">Review</th>
+
+                              {% for line in dataAlbum %}
+                                <tr>
+                                  <td style="font-weight:bold;font-size:1.5em">{{line.albumID}}</td>
+                                  <td style="font-weight:bold;font-size:1.5em">{{line.reviewText}}</td>
+                                </tr>
+                              {% endfor %}
+                            </table>
+                        {% endif %}
+                        <span class="addedError">
+                              {% if errorAlbum %}
+                                  <p class="error"><strong>=></strong> {{errorAlbum}}</p>
+                              {% endif %}
+                        </span>
+                      </span>
+                                          
+                  </div>                
+              </div>            
+          </div>
+      </div>
+    </div>
+    <!-- Automatic Slideshow Images -->
+    <div class="mySlides w3-display-container w3-center">
+      <img src="{{url_for('static', filename='Concert1.jpg')}}" style="width:100%;height:50%">
+    </div>
+    <div class="mySlides w3-display-container w3-center">
+      <img src="{{url_for('static', filename='Concert2.jpg')}}" style="width:100%;height:50%">
+    </div>
+    <div class="mySlides w3-display-container w3-center">
+      <img src="{{url_for('static', filename='Concert3.jpg')}}" style="width:100%;height:50%">
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-64 w3-center w3-opacity w3-light-grey w3-xlarge">
+  <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i>
+  <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">sm9124.nyu</a></p>
+</footer>
+
+<script>
+// Automatic Slideshow - change image every 4 seconds
+var myIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}    
+  x[myIndex-1].style.display = "block";  
+  setTimeout(carousel, 4000);    
+}
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js'></script>
+</body>
+</html>
